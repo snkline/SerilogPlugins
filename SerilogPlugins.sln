@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Sinks.NetMQ", "Serilog.Sinks.NetMQ\Serilog.Sinks.NetMQ.csproj", "{27501802-47AD-498D-91B4-65B1985D5E39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Sinks.NetMQ", "Serilog.Sinks.NetMQ\Serilog.Sinks.NetMQ.csproj", "{27501802-47AD-498D-91B4-65B1985D5E39}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Sinks.NetMQ.Tests", "Serilog.Sinks.NetMQ.Tests\Serilog.Sinks.NetMQ.Tests.csproj", "{1E8A1973-3C56-469A-B6E8-4F4475B2AFFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Producer", "Producer\Producer.csproj", "{1DA6DAC6-D97A-43A9-91C3-1891F4729DCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "Consumer\Consumer.csproj", "{D2EDE771-40BB-4FD3-9FCD-EC273E7DA24B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{27501802-47AD-498D-91B4-65B1985D5E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27501802-47AD-498D-91B4-65B1985D5E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27501802-47AD-498D-91B4-65B1985D5E39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E8A1973-3C56-469A-B6E8-4F4475B2AFFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E8A1973-3C56-469A-B6E8-4F4475B2AFFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E8A1973-3C56-469A-B6E8-4F4475B2AFFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E8A1973-3C56-469A-B6E8-4F4475B2AFFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DA6DAC6-D97A-43A9-91C3-1891F4729DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DA6DAC6-D97A-43A9-91C3-1891F4729DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DA6DAC6-D97A-43A9-91C3-1891F4729DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DA6DAC6-D97A-43A9-91C3-1891F4729DCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2EDE771-40BB-4FD3-9FCD-EC273E7DA24B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2EDE771-40BB-4FD3-9FCD-EC273E7DA24B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2EDE771-40BB-4FD3-9FCD-EC273E7DA24B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2EDE771-40BB-4FD3-9FCD-EC273E7DA24B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
