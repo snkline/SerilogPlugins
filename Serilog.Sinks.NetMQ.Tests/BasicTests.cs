@@ -38,10 +38,10 @@ namespace Serilog.Sinks.NetMQ.Tests
                     .WriteTo.NetMQ(InprocAddress, callNetMqCleanup: false)
                     .CreateLogger();
 
-            tcpLog =
-                new LoggerConfiguration()
-                    .WriteTo.NetMQ(TcpAddress, callNetMqCleanup: false)
-                    .CreateLogger();
+            //tcpLog =
+            //    new LoggerConfiguration()
+            //        .WriteTo.NetMQ(TcpAddress, callNetMqCleanup: false)
+            //        .CreateLogger();
         }
 
         [OneTimeTearDown]
@@ -163,125 +163,125 @@ namespace Serilog.Sinks.NetMQ.Tests
             }
         }
 
-        [Test]
-        [Order(3)]
-        public void TestReceiveFromLogOverTcp()
-        {
+        //[Test]
+        //[Order(3)]
+        //public void TestReceiveFromLogOverTcp()
+        //{
 
-            int processed = 0;
-            bool done = false;
+        //    int processed = 0;
+        //    bool done = false;
 
-            using (var subcription1 = new SubscriberSocket())
-            using (var poller = new NetMQPoller { subcription1 })
-            {
-                subcription1.Connect(TcpAddress);
-                subcription1.SubscribeToAnyTopic();
-                subcription1.ReceiveReady += (s, a) =>
-                {
-                    var msg = a.Socket.ReceiveMultipartStrings(2);
-                    Assert.AreEqual(2, msg.Count);
-                    processed++;
-                    Console.WriteLine(msg[0], msg[1]);
-                    if (processed == 3)
-                    {
-                        done = true;
-                        poller.Stop();
-                    }
-                };
+        //    using (var subcription1 = new SubscriberSocket())
+        //    using (var poller = new NetMQPoller { subcription1 })
+        //    {
+        //        subcription1.Connect(TcpAddress);
+        //        subcription1.SubscribeToAnyTopic();
+        //        subcription1.ReceiveReady += (s, a) =>
+        //        {
+        //            var msg = a.Socket.ReceiveMultipartStrings(2);
+        //            Assert.AreEqual(2, msg.Count);
+        //            processed++;
+        //            Console.WriteLine(msg[0], msg[1]);
+        //            if (processed == 3)
+        //            {
+        //                done = true;
+        //                poller.Stop();
+        //            }
+        //        };
 
-                var polling = Task.Run(() => poller.Run());
+        //        var polling = Task.Run(() => poller.Run());
 
 
-                tcpLog.Information("First");
-                tcpLog.Warning("Second");
-                tcpLog.Error("Third");
+        //        tcpLog.Information("First");
+        //        tcpLog.Warning("Second");
+        //        tcpLog.Error("Third");
 
-                polling.Wait();
+        //        polling.Wait();
 
-                Assert.AreEqual(3, processed);
-            }
-        }
+        //        Assert.AreEqual(3, processed);
+        //    }
+        //}
 
-        [Test]
-        [Order(4)]
-        public void TestReceiveFromLogSeperateTopicsOverTcp()
-        {
+        //[Test]
+        //[Order(4)]
+        //public void TestReceiveFromLogSeperateTopicsOverTcp()
+        //{
 
-            int infoProcessed = 0;
-            int warnProcessed = 0;
-            int erorProcessed = 0;
-            bool infoDone = false;
-            bool warnDone = false;
-            bool erorDone = false;
-            using (var subcription1 = new SubscriberSocket(TcpAddress))
-            using (var subcription2 = new SubscriberSocket(TcpAddress))
-            using (var subcription3 = new SubscriberSocket(TcpAddress))
-            using (var poller = new NetMQPoller { subcription1, subcription2, subcription3 })
-            {
-                subcription1.Subscribe(LogEventLevel.Information.ToString());
-                subcription1.ReceiveReady += (s, a) =>
-                {
-                    var msg = a.Socket.ReceiveMultipartStrings(2);
-                    Assert.AreEqual(2, msg.Count);
-                    Assert.AreEqual(LogEventLevel.Information.ToString(), msg[0]);
+        //    int infoProcessed = 0;
+        //    int warnProcessed = 0;
+        //    int erorProcessed = 0;
+        //    bool infoDone = false;
+        //    bool warnDone = false;
+        //    bool erorDone = false;
+        //    using (var subcription1 = new SubscriberSocket(TcpAddress))
+        //    using (var subcription2 = new SubscriberSocket(TcpAddress))
+        //    using (var subcription3 = new SubscriberSocket(TcpAddress))
+        //    using (var poller = new NetMQPoller { subcription1, subcription2, subcription3 })
+        //    {
+        //        subcription1.Subscribe(LogEventLevel.Information.ToString());
+        //        subcription1.ReceiveReady += (s, a) =>
+        //        {
+        //            var msg = a.Socket.ReceiveMultipartStrings(2);
+        //            Assert.AreEqual(2, msg.Count);
+        //            Assert.AreEqual(LogEventLevel.Information.ToString(), msg[0]);
 
-                    infoProcessed++;
-                    if (infoProcessed == 3)
-                    {
-                        infoDone = true;
-                        poller.Remove(subcription1);
-                    }
-                };
-                subcription2.Subscribe(LogEventLevel.Warning.ToString());
-                subcription2.ReceiveReady += (s, a) =>
-                {
-                    var msg = a.Socket.ReceiveMultipartStrings(2);
-                    Assert.AreEqual(2, msg.Count);
-                    Assert.AreEqual(LogEventLevel.Warning.ToString(), msg[0]);
+        //            infoProcessed++;
+        //            if (infoProcessed == 3)
+        //            {
+        //                infoDone = true;
+        //                poller.Remove(subcription1);
+        //            }
+        //        };
+        //        subcription2.Subscribe(LogEventLevel.Warning.ToString());
+        //        subcription2.ReceiveReady += (s, a) =>
+        //        {
+        //            var msg = a.Socket.ReceiveMultipartStrings(2);
+        //            Assert.AreEqual(2, msg.Count);
+        //            Assert.AreEqual(LogEventLevel.Warning.ToString(), msg[0]);
 
-                    warnProcessed++;
-                    if (warnProcessed == 3)
-                    {
-                        warnDone = true;
-                        poller.Remove(subcription2);
-                    }
-                };
-                subcription3.Subscribe(LogEventLevel.Error.ToString());
-                subcription3.ReceiveReady += (s, a) =>
-                {
-                    var msg = a.Socket.ReceiveMultipartStrings(2);
-                    Assert.AreEqual(2, msg.Count);
-                    Assert.AreEqual(LogEventLevel.Error.ToString(), msg[0]);
+        //            warnProcessed++;
+        //            if (warnProcessed == 3)
+        //            {
+        //                warnDone = true;
+        //                poller.Remove(subcription2);
+        //            }
+        //        };
+        //        subcription3.Subscribe(LogEventLevel.Error.ToString());
+        //        subcription3.ReceiveReady += (s, a) =>
+        //        {
+        //            var msg = a.Socket.ReceiveMultipartStrings(2);
+        //            Assert.AreEqual(2, msg.Count);
+        //            Assert.AreEqual(LogEventLevel.Error.ToString(), msg[0]);
 
-                    erorProcessed++;
-                    if (erorProcessed == 2)
-                    {
-                        erorDone = true;
-                        poller.Remove(subcription3);
-                    }
-                };
+        //            erorProcessed++;
+        //            if (erorProcessed == 2)
+        //            {
+        //                erorDone = true;
+        //                poller.Remove(subcription3);
+        //            }
+        //        };
 
-                var polling = Task.Run(() => poller.Run());                
+        //        var polling = Task.Run(() => poller.Run());                
 
-                tcpLog.Information("First");   // 1st INF
-                tcpLog.Warning("Second");      // 1st WARN
-                tcpLog.Information("Fifth");   // 2nd INF
-                tcpLog.Error("Third");         // 1st ERR
-                tcpLog.Error("Sixth");         // 2nd ERR
-                tcpLog.Warning("Seventh");     // 2nd WARN
-                tcpLog.Information("Eighth");  // 3rd INF
-                tcpLog.Warning("Ninth");       // 3nd WARN
+        //        tcpLog.Information("First");   // 1st INF
+        //        tcpLog.Warning("Second");      // 1st WARN
+        //        tcpLog.Information("Fifth");   // 2nd INF
+        //        tcpLog.Error("Third");         // 1st ERR
+        //        tcpLog.Error("Sixth");         // 2nd ERR
+        //        tcpLog.Warning("Seventh");     // 2nd WARN
+        //        tcpLog.Information("Eighth");  // 3rd INF
+        //        tcpLog.Warning("Ninth");       // 3nd WARN
 
-                while (!infoDone || !warnDone || !erorDone)
-                    Thread.Sleep(50);
+        //        while (!infoDone || !warnDone || !erorDone)
+        //            Thread.Sleep(50);
 
-                poller.Stop();
-                polling.Wait();
+        //        poller.Stop();
+        //        polling.Wait();
 
-                Assert.AreEqual(3, infoProcessed);
-                Assert.AreEqual(3, warnProcessed);
-                Assert.AreEqual(2, erorProcessed);
-            }
-        }
+        //        Assert.AreEqual(3, infoProcessed);
+        //        Assert.AreEqual(3, warnProcessed);
+        //        Assert.AreEqual(2, erorProcessed);
+        //    }
+        //}
     }
 }
