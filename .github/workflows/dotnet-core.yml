@@ -28,4 +28,5 @@ jobs:
       uses: rohith/publish-nuget@v2
       with:
         PROJECT_FILE_PATH: Serilog.Sinks.NetMQ/Serilog.Sinks.NetMQ.csproj
+        VERSION_FILE_PATH: Serilog.Sinks.NetMQ/Directory.Build.props
         NUGET_KEY: ${{secrets.NUGET_SECRET}}        
