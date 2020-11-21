@@ -23,3 +23,9 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+    - name: Publish NuGet Package
+      id: publish_nuget
+      uses: rohith/publish-nuget@v2
+      with:
+        PROJECT_FILE_PATH: Serilog.Sinks.NetMQ/Serilog.Sinks.NetMQ.csproj
+        NUGET_KEY: ${{secrets.NUGET_SECRET}}        
